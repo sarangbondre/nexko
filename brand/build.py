@@ -50,7 +50,13 @@ def wordmark(s=12, gap=26):
 WM, WMW = wordmark()
 
 # ---------- symbols (drawn in a 200x200 box) ----------
-def sym_flux():
+SPIN_CSS = ('<style>@keyframes nx-spin{to{transform:rotate(360deg)}}'
+            '.nx-rotor{animation:nx-spin 7s linear infinite}'
+            '@media (prefers-reduced-motion:reduce){.nx-rotor{animation:none}}</style>')
+
+def sym_flux(spin=True):
+    """Rotor blades centred on (100,100). spin=True adds a slow CSS rotation
+    (works in <img>, inline SVG and browsers; static in print/design tools)."""
     g = uid("g")
     def pt(r, a):
         a = math.radians(a)
@@ -61,8 +67,10 @@ def sym_flux():
     blade = "M " + " L ".join(outer + inner) + " Z"
     stops = "".join(f'<stop offset="{o}" stop-color="{c}"/>' for o, c in GRAD)
     gd = f'<linearGradient id="{g}" x1="10" y1="-90" x2="0" y2="-10" gradientUnits="userSpaceOnUse">{stops}</linearGradient>'
-    blades = "".join(f'<g transform="translate(100 100) rotate({a})"><path d="{blade}" fill="url(#{g})"/></g>' for a in (0, 120, 240))
-    return f'<defs>{gd}</defs>{blades}'
+    blades = "".join(f'<path d="{blade}" fill="url(#{g})" transform="rotate({a})"/>' for a in (0, 120, 240))
+    # Rotation happens around the inner group's origin, which sits at the hub (100,100).
+    rotor = f'<g transform="translate(100 100)"><g class="nx-rotor">{blades}</g></g>'
+    return f'<defs>{gd}</defs>{SPIN_CSS if spin else ""}{rotor}'
 
 def sym_horizon():
     g, c = uid("g"), uid("c")
@@ -168,5 +176,5 @@ for suffix, color, tag in (("", INK, "#6b7280"), ("-white", "#ffffff", "#ffffffb
           f'<text x="221" y="142" fill="{tag}" font-family="Inter, Helvetica, Arial, sans-serif" font-size="19" font-weight="500" letter-spacing="10.6">RENEWABLE SOLUTIONS</text></svg>')
 write("nexko-mark.svg", f'<svg {NS} viewBox="0 0 200 200"><title>NEXKO</title>{sym_flux()}</svg>')
 write("nexko-icon.svg", f'<svg {NS} viewBox="0 0 200 200"><title>NEXKO</title><rect width="200" height="200" rx="44" fill="{INK}"/>'
-      f'<g transform="translate(100 100) scale(.78) translate(-100 -100)">{sym_flux()}</g></svg>')
+      f'<g transform="translate(100 100) scale(.78) translate(-100 -100)">{sym_flux(spin=False)}</g></svg>')
 print("production files written")
