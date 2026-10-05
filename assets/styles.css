@@ -147,6 +147,7 @@ figure { margin: 0; }
 
 /* ---------- statement ---------- */
 .statement { padding-block: clamp(96px, 14vw, 180px); }
+.statement:has(+ .clients) { padding-bottom: clamp(56px, 7vw, 96px); }
 .statement__text {
   font: 400 clamp(30px, 4.4vw, 60px)/1.1 var(--display);
   letter-spacing: -.03em;
@@ -156,6 +157,24 @@ figure { margin: 0; }
 .statement__text em { font-style: normal; color: var(--accent); }
 .statement__cols { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 80px); max-width: 980px; margin-left: auto; color: var(--ink-2); }
 .statement__cols p { margin: 0; }
+
+/* ---------- clients ---------- */
+.clients { padding-bottom: clamp(80px, 10vw, 130px); }
+.clients__list {
+  list-style: none; margin: 0; padding: 40px 0 0; border-top: 1px solid var(--line);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 40px 64px;
+}
+.clients__logo { height: 46px; width: auto; transition: filter .4s, opacity .4s; }
+.clients__logo--tall { height: 72px; }
+@media (hover: hover) {
+  .clients__logo { filter: grayscale(1); opacity: .65; }
+  .clients__list li:hover .clients__logo { filter: none; opacity: 1; }
+}
+@media (max-width: 560px) {
+  .clients__list { justify-content: center; gap: 32px 40px; }
+  .clients__logo { height: 34px; }
+  .clients__logo--tall { height: 56px; }
+}
 
 /* ---------- services ---------- */
 .services { padding-bottom: clamp(80px, 10vw, 140px); background: var(--white); padding-top: clamp(96px, 12vw, 160px); }
