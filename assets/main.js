@@ -73,7 +73,7 @@
     const d = collect();
     if (!d) return;
     const subject = `Enquiry: ${d.service}${d.company ? ' – ' + d.company : ''}`;
-    location.href = `mailto:info@nexkorenewable.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body(d))}`;
+    location.href = `mailto:sales@nexkorenewable.com?cc=info@nexkorenewable.com&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body(d))}`;
   });
 
   document.getElementById('waSend').addEventListener('click', () => {
