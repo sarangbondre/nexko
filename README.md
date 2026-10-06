@@ -3,7 +3,7 @@
 Static, single-page site. No build step.
 
 ```
-python3 -m http.server 5173   # then open http://localhost:5173
+python3 serve.py   # then open http://localhost:5173 (no-cache dev server)
 ```
 
 Deploy by uploading `index.html` and `assets/` to any static host (Netlify, Vercel, Cloudflare Pages, cPanel).
